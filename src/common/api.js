@@ -32,5 +32,15 @@ export default{
       url:'mockData/inCome.json',
     };
     return this._getData(options);
+  },
+  /**
+   * 获取负债数据
+   */
+  getDebtsData:function(){
+    let options = {
+      method:'GET',
+      url:'mockData/debts.json',
+    };
+    return this._getData(options);
   }
 }

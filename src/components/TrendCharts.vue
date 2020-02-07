@@ -1,9 +1,9 @@
 <template>
   <div>
-    <title-bar name="收入趋势图"></title-bar>
+    <title-bar :name="chartMode==='income'?'收入趋势图':'负债趋势图'"></title-bar>
     <div class="chart-content">
       <p class="chart-period"></p>
-      <canvas id="trendChart" width="360" height="260"></canvas> 
+      <canvas id="trendChart" width="360" height="280"></canvas> 
     </div>
   </div>
 </template>
@@ -15,45 +15,38 @@ import _ from 'lodash'
 import titleBar from '@/components/TitleBar'
 export default {
   name: 'trendCharts',
-  props: ['sourceData'],
+  props: ['chartData','chartMode'],
   data() {
     return {
-    }
+    } 
   },
   created(){
   },
-  mounted(){
+  mounted(){ 
   },
   watch:{
-    incomeData(val){
-      this.initTrendCharts()
+    chartData(val){
+      this.$nextTick(()=>{
+        this.initTrendCharts()
+      })
     }
   },
   computed: {
-    ...mapState(['incomeData']),
-    trendChartData(){
-      let temp = []
-      this.incomeData.forEach(item=>{
-        for(var key in item){
-          if(typeof(item[key])=="number"){
-            temp.push({value: item[key],name: key,date: item['月份']})
-          }
-        }
-      })
-      return temp
-    }
   },
   components: {
     titleBar 
   },
   methods: {
     initTrendCharts(){
+      let paddingTop = this.chartMode==='income'?85:135
+      let itemWidth = this.chartMode==='income'?150:103
+      let legendClickable = this.chartMode==='income'?false:true
       const chart = new F2.Chart({ 
           id: 'trendChart',
-          padding: [85, 'auto', 'auto', 'auto'],
+          padding: [paddingTop, 'auto', 'auto', 'auto'],
           pixelRatio: window.devicePixelRatio // 指定分辨率
       });
-      chart.source(this.trendChartData, {
+      chart.source(this.chartData, {
         date: {
           range: [ 0, 1 ],
           type: 'timeCat',
@@ -64,18 +57,20 @@ export default {
         alwaysShow: true,
         showCrosshairs: true,
         custom: true, // 自定义 tooltip 内容框
-        onChange: function onChange(obj) {
+        onChange: obj => {
           const legend = chart.get('legendController').legends.top[0];
           const tooltipItems = obj.items;
-          const legendItems = legend.items;
+          const legendItems = legend.items
           const map = {};
           legendItems.forEach(function(item) {
             map[item.name] = _.clone(item);
           });
           tooltipItems.forEach(function(item) {
             const name = item.name;
-            const value = item.value;
-            if (map[name]) {
+            const value = parseFloat(item.value).toFixed(0);
+            if(value==0){
+              delete map[name]
+            }else if (map[name]) {
               map[name].value = value;
             }
           });
@@ -91,11 +86,12 @@ export default {
       chart.legend({
         align: 'center',
         offsetY: 5,
-        offsetX: -10,
-        clickable: false,
+        offsetX: -20,
+        clickable: legendClickable,
         itemMarginBottom: 10,
-        itemWidth: 150 // 图例项按照实际宽度渲染
+        itemWidth: itemWidth // 图例项按照实际宽度渲染
       });
+      chart.legend('总计', false)
       chart.axis('date', {
         label: function label(text, index, total) {
           const textCfg = {};

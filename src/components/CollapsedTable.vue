@@ -1,12 +1,12 @@
 <template>
   <div class="collapsedTable">
-    <title-bar name="收入明细"></title-bar>
+    <title-bar :name="chartMode==='income'?'收入明细':'负债明细'"></title-bar>
     <div class="table-box">
       <table style="position:fixed;width:94.5%;top:0px;z-index:1;" v-show="theadFixed">
         <thead>
           <tr>
             <th style="background:#e3e7f3;">月份</th>
-            <th style="background: #f3bab0;">收入(¥)</th>
+            <th style="background: #f3bab0;">{{chartMode==='income'?'收入(¥)':'负债(¥)'}}</th>
             <th style="background: #6c9;">较上月(¥)</th>
           </tr>
         </thead>
@@ -15,8 +15,8 @@
         <thead>
           <tr>
             <th style="background:#e3e7f3;">月份</th>
-            <th style="background: #f3bab0;">收入(¥)</th>
-            <th style="background: #6c9;">较上月(¥)</th>
+            <th style="background: #f3bab0;">{{chartMode==='income'?'收入(¥)':'负债(¥)'}}</th>
+            <th style="background: #6c9;" :style="{'width':chartMode==='income'?'33.3%':'40%'}">较上月(¥)</th>
           </tr>
         </thead>
         <tbody v-for="(item,index) in tableData" :key="index">
@@ -33,12 +33,13 @@
               <i class="icon icon-59" :class="{'icon-up':item['较上月']>0,'icon-down':item['较上月']<0,'icon-hidden':item['较上月']==0}"></i>
             </td>
           </tr>
-          <tr v-show="item.isOpen" class="tr-open"><td>公司:</td><td class="text-nowrap"><span>{{item['单位']}}</span></td><td></td></tr>
-          <tr v-show="item.isOpen" class="tr-open"><td>个人社保:</td><td>{{item['个人社保']}}</td><td></td></tr>
-          <tr v-show="item.isOpen" class="tr-open"><td>个人公积金:</td><td>{{item['个人公积金']}}</td><td></td></tr>
-          <tr v-show="item.isOpen" class="tr-open"><td>个人所得税:</td><td>{{item['个人所得税']}}</td><td></td></tr>
-          <tr v-show="item.isOpen" class="tr-open"><td>补发:</td><td>{{item['补发']}}</td><td></td></tr>
-          <tr v-show="item.isOpen" class="tr-open"><td>实发工资:</td><td>{{item['实发工资']}}</td><td></td></tr>
+          <tr v-show="item.isOpen&&(typeof(value)=='number'&&value>0||key=='单位')" v-for="(value,key) in item" :key=key class="tr-open">
+            <td>{{key}}:</td>
+            <td class="text-nowrap">
+              <span>{{value}}</span>
+            </td>
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -50,14 +51,14 @@ import {mapState,mapMutations,mapActions} from 'vuex'
 import titleBar from '@/components/TitleBar'
 export default {
   name: 'collapsedTable',
-  props: [],
+  props: ['listData','chartMode'],
   data(){
     return{
       tableData: ''
     }
   },
   computed: {
-    ...mapState(['incomeData','scrollTop']),
+    ...mapState(['scrollTop']),
     theadFixed(){
       let tableBox = document.querySelector('.table-box'),offsetTop = 0;
       if(tableBox){
@@ -74,7 +75,7 @@ export default {
   mounted(){
   },
   watch:{
-    incomeData(val){
+    listData(val){
       this.tableData = JSON.parse(JSON.stringify(val));
       this.tableData.forEach((item,index)=>{
         this.$set(item,'isOpen',false)
@@ -106,7 +107,9 @@ export default {
               border: none;
               font-size: 15px;
               line-height: 1;
-              width: 33.33%;
+              &:first-child{
+                width: 33.33%;
+              }
               text-align: center;
             }
           }
