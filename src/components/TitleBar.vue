@@ -4,7 +4,9 @@
     <div class="title-bar">
       <i></i>
       <span class="title-text">{{name}}</span>
-      <span class="title-tip">{{tips}}</span>
+      <span class="title-tip" v-if="period">
+        数据截至：{{period.start.year}}年{{period.start.month}}月 - {{period.end.year}}年{{period.end.month}}月
+      </span>
     </div>
   </div>
 </template>
@@ -12,19 +14,7 @@
 <script>
 export default {
   name: 'titleBar',
-  props: {
-    name:{
-      type: String,
-      required: true
-    },
-    tips:{
-      type: String
-    },
-    hr:{
-      type: Boolean,
-      default: true
-    }
-  },
+  props: ['name','hr','period'],
   data(){
     return {
 

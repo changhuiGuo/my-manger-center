@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pie-charts :chartData="pieChartData" chartMode="income"></pie-charts>
+    <pie-charts :chartData="pieChartData" chartMode="income" :period="period"></pie-charts>
     <trend-charts :chartData="trendChartData" chartMode="income"></trend-charts>
     <collapsed-list :listData="collapseData" chartMode="income"></collapsed-list>
     <collapsed-table :listData="incomeData" chartMode="income"></collapsed-table>
@@ -18,7 +18,8 @@ export default {
   name: 'inCome',
   data() {
     return {
-      incomeData: []
+      incomeData: [],
+      period: ''
     }
   },
   components:{
@@ -39,6 +40,7 @@ export default {
           }
           return item
         })
+        this.period = this.incomeData[this.incomeData.length-1]['月份'] + ',' + this.incomeData[0]['月份']
       }
     })
   },

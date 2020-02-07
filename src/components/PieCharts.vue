@@ -1,6 +1,6 @@
 <template>
   <div>
-    <title-bar name="总览" tips="数据截至：2018年5月 - 2020年1月" :hr="false"></title-bar>
+    <title-bar name="总览" :period="periodData" :hr="false"></title-bar>
     <div class="chart-content">
       <canvas id="pieChart" width="360" :height="chartMode==='income'?180:186"></canvas> 
     </div>
@@ -13,7 +13,7 @@ import F2 from '@antv/f2'
 import titleBar from '@/components/TitleBar'
 export default {
   name: 'pieCharts',
-  props: ['chartData','chartMode'],
+  props: ['chartData','chartMode','period'],
   data() {
     return {
     }
@@ -30,6 +30,23 @@ export default {
     }
   },
   computed: {
+    periodData(){
+      if(this.period){
+        let temp = (this.period).split(',')
+        return {
+          start:{
+            year: temp[0].split('-')[0],
+            month: temp[0].split('-')[1]
+          },
+          end:{
+            year: temp[1].split('-')[0],
+            month: temp[1].split('-')[1]
+          }
+        }
+      }else{
+        return false
+      }
+    }
   },
   components: {
     titleBar
