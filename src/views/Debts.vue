@@ -3,6 +3,7 @@
     <pie-charts :chartData="pieChartData" chartMode="debts" :period="period"></pie-charts>
     <trend-charts :chartData="trendChartData" chartMode="debts"></trend-charts>
     <collapsed-table :listData="debtsData" chartMode="debts"></collapsed-table>
+    <div class="loading2" data-text="加载中..." v-show="isLoading"></div>
   </div>
 </template>
 
@@ -18,7 +19,8 @@ export default {
   data() {
     return {
       debtsData: [],
-      period: ''
+      period: '',
+      isLoading: true
     }
   },
   components:{
@@ -29,6 +31,7 @@ export default {
   },
   created(){
     api.getDebtsData().then(res=>{
+      this.isLoading = false
       if(res.data.length){
         this.debtsData = res.data.map(item=>{
           item['总计'] = 0;

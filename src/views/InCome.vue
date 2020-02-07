@@ -4,6 +4,7 @@
     <trend-charts :chartData="trendChartData" chartMode="income"></trend-charts>
     <collapsed-list :listData="collapseData" chartMode="income"></collapsed-list>
     <collapsed-table :listData="incomeData" chartMode="income"></collapsed-table>
+    <div class="loading2" data-text="加载中..." v-show="isLoading"></div>
   </div>
 </template>
 
@@ -19,7 +20,8 @@ export default {
   data() {
     return {
       incomeData: [],
-      period: ''
+      period: '',
+      isLoading: true
     }
   },
   components:{
@@ -30,6 +32,7 @@ export default {
   },
   created(){
     api.getIncomeData().then(res=>{
+      this.isLoading = false
       if(res.data.length){
         this.incomeData = res.data.map(item=>{
           item['总计'] = 0;

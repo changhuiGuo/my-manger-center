@@ -9,6 +9,10 @@
       </div>
     </header>
     <router-view/>
+    <footer>
+      <span>{{devicesInfo}}</span>
+      <hr>
+    </footer>
   </div>
 </template>
 
@@ -23,12 +27,15 @@ export default {
           {nameCn: '负债',nameEn: 'Debts',id: 2}
         ]
       },
+      devicesInfo:''
     }
   },
   components: {
   },
   created(){
-    this.navData.active = this.$route.name==='InCome'?'收入':'负债'
+    this.navData.active = this.$route.name==='InCome'?'收入':'负债';
+    this.devicesInfo = navigator.userAgent.split(';').filter(item=>item.includes('Build'))
+    this.devicesInfo = this.devicesInfo[0].split(' ')[1]
   },
   methods: {
     navClick(item){
@@ -42,7 +49,6 @@ export default {
 <style lang="less">
   .body{
     background: #f7f7f7;
-    padding-bottom: 100px; 
     header{
       height: 54px!important;
       .weui-navbar{
@@ -54,6 +60,9 @@ export default {
           }
         }
       }
+    }
+    footer{
+      text-align: center;
     }
   }
 </style>
