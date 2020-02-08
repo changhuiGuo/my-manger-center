@@ -20,8 +20,7 @@ export default {
   data() {
     return {
       incomeData: [],
-      period: '',
-      isLoading: true
+      period: ''
     }
   },
   components:{
@@ -31,8 +30,9 @@ export default {
     collapsedTable
   },
   created(){
+    this.setLoadingStatus(true)
     api.getIncomeData().then(res=>{
-      this.isLoading = false
+      this.setLoadingStatus(false)
       if(res.data.length){
         this.incomeData = res.data.map(item=>{
           item['总计'] = 0;
@@ -50,6 +50,7 @@ export default {
   mounted(){
   },
   computed: {
+    ...mapState(['isLoading']),
     pieChartData(){
       let temp = [];
       this.incomeData.forEach(item=>{
@@ -122,7 +123,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setIncomeData'
+      'setLoadingStatus'
     ])
   }
 }

@@ -1,5 +1,10 @@
 <template>
   <div class="body">
+    <div class="banner">
+      <img :src="[navData.active=='收入'?'../../images/收入.jpg':'../../images/负债.jpg']" alt="">
+      <span :class="{'color-normal':navData.active=='收入'}" v-show="!isLoading">{{dateInfo.start}}</span>
+      <span class="top-tips" v-show="!isLoading">{{dateInfo.text}}</span>
+    </div>
     <header class="weui-tab">
       <div class="weui-navbar">
         <div class="weui-navbar__item" :class="{'tab-blue': navData.active===item.nameCn}" 
@@ -17,6 +22,7 @@
 </template>
 
 <script>
+import {mapState,mapMutations,mapActions} from 'vuex'
 export default {
   data(){
     return{
@@ -34,8 +40,65 @@ export default {
   },
   created(){
     this.navData.active = this.$route.name==='InCome'?'收入':'负债';
-    this.devicesInfo = navigator.userAgent.split(';').filter(item=>item.includes('Build'))
-    this.devicesInfo = this.devicesInfo[0].split(' ')[1]
+    this.devicesInfo = navigator.userAgent.split(';').filter(item=>item.includes('Build'));
+    this.devicesInfo = this.devicesInfo[0].split(' ')[1];
+  },
+  computed:{
+    ...mapState(['isLoading']),
+    dateInfo(){
+      let start = '',year='',month='',day='';
+      if(this.navData.active=='收入'){ 
+        year = new Date().getFullYear() - 2018 - 1,
+        month = new Date().getMonth() + 1 + 8,
+        day = new Date().getDate() + 11;
+        start = '20180419';
+      }else if(this.navData.active=='负债'){
+        year = new Date().getFullYear() - 2017 - 1,
+        month = new Date().getMonth() + 1,
+        day = new Date().getDate() + 3,
+        start = '20171227';
+      }
+      switch(month) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+          if(day>31){
+            day = day -31;
+            month++;
+          }
+          break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+          if(day>30){
+            day = day -30;
+            month++;
+          }
+          break;
+        case 2:
+          if(day>29){
+            day = day -29;
+            month++;
+          }
+          break;
+        default: 
+          break;
+      }
+      if(month>11){
+        month = 0;
+        year++
+      }
+
+      return{
+        year,month,day,start,
+        text: this.navData.active=='收入' ? 
+        `任职web前端${year}年${month}个月${day}天` : `Q宝事件${year}年${month}个月${day}天`
+      }
+    }
   },
   methods: {
     navClick(item){
@@ -49,6 +112,39 @@ export default {
 <style lang="less">
   .body{
     background: #f7f7f7;
+    .banner{
+      position: relative;
+      line-height: 1;
+      margin-bottom: -3px;
+      img{
+        width: 100%;
+      }
+      span{
+        position: absolute;
+        right: 0;
+        bottom: 20px;
+        color: #870209;
+        font-style: italic;
+        font-weight: bold;
+        padding: 2px 10px;
+        opacity: .5;
+        &.color-normal{
+          opacity: .2;
+          color: #4169e2;
+        }
+        &.top-tips{
+          right: 0;
+          bottom: 5px;
+          font-style: normal; 
+          font-weight: normal;
+          color: #fff;
+          font-size: 12px;
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+          background-color: rgba(150, 103, 83,.6); 
+        }
+      }
+    }
     header{
       height: 54px!important;
       .weui-navbar{

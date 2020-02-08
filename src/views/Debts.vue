@@ -19,8 +19,7 @@ export default {
   data() {
     return {
       debtsData: [],
-      period: '',
-      isLoading: true
+      period: ''
     }
   },
   components:{
@@ -30,13 +29,15 @@ export default {
     collapsedTable
   },
   created(){
+    this.setLoadingStatus(true)
     api.getDebtsData().then(res=>{
-      this.isLoading = false
-      if(res.data.length){
-        this.debtsData = res.data.map((item,index)=>{
+      this.setLoadingStatus(false)
+      if(res){
+        let temp = res.data.debts
+        this.debtsData = temp.map((item,index)=>{
           item['总计'] = 0;
           for(var key in item){
-            item[key]=='-'?item[key]=res.data[index+1][key]:'';
+            item[key]=='-'?item[key]=temp[index+1][key]:'';
             if(typeof(item[key])==='number'&&key!='总计'){
               item['总计'] = parseFloat((item['总计']+item[key]).toFixed(2))
             }
@@ -50,6 +51,7 @@ export default {
   mounted(){
   },
   computed: {
+    ...mapState(['isLoading']),
     pieChartData(){
       let temp = [];
       for(var key in this.debtsData[0]){
@@ -84,7 +86,7 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setdebtsData'
+      'setLoadingStatus'
     ])
   }
 }
