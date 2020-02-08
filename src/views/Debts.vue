@@ -33,9 +33,10 @@ export default {
     api.getDebtsData().then(res=>{
       this.isLoading = false
       if(res.data.length){
-        this.debtsData = res.data.map(item=>{
+        this.debtsData = res.data.map((item,index)=>{
           item['总计'] = 0;
           for(var key in item){
+            item[key]=='-'?item[key]=res.data[index+1][key]:'';
             if(typeof(item[key])==='number'&&key!='总计'){
               item['总计'] = parseFloat((item['总计']+item[key]).toFixed(2))
             }

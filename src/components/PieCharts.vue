@@ -1,6 +1,6 @@
 <template>
   <div>
-    <title-bar name="总览" :period="periodData" :hr="false"></title-bar>
+    <title-bar name="总览" :period="periodData" :hrdisable="true"></title-bar>
     <div class="chart-content">
       <canvas id="pieChart" width="360" :height="chartMode==='income'?180:186"></canvas> 
     </div>
@@ -76,7 +76,7 @@ export default {
       chart.axis(false);
       chart.interval()
         .position('a*money')
-        .color('name', [ '#F04864','#13C2C2','#2FC25B','#FACC14','#1890FF' ])
+        .color('name', [ '#F04864','#13C2C2','#2FC25B','#FACC14','#1890FF','#8543E0', '#3436C7', '#223273' ])
         .adjust('stack');
 
       chart.guide().html({

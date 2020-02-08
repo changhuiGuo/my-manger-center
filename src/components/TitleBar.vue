@@ -1,6 +1,6 @@
 <template>
   <div style="background:#f7f7f7;">
-    <div class="hr1" :class="{'border-none':!hr}"></div>
+    <div class="hr1" :class="{'border-none':hrdisable}"></div>
     <div class="title-bar">
       <i></i>
       <span class="title-text">{{name}}</span>
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'titleBar',
-  props: ['name','hr','period'],
+  props: ['name','hrdisable','period'],
   data(){
     return {
 

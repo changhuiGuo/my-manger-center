@@ -26,7 +26,7 @@
             <span>{{item['月份']}}</span>
             </td>
             <td>
-              <span class="text-red">{{item['总计']}}</span>
+              <span class="text-red">{{item['总计'].toFixed(0)}}</span>
             </td>
             <td>
               <span>{{item['较上月']}}</span>
@@ -81,7 +81,7 @@ export default {
         this.$set(item,'isOpen',false)
         item['较上月'] = 0;
         if(index<this.tableData.length-1){
-          item['较上月'] = parseFloat((item['总计'] - this.tableData[index+1]['总计']).toFixed(2))
+          item['较上月'] = parseFloat((item['总计'] - this.tableData[index+1]['总计']).toFixed(0))
           item['较上月'] > 0 ? item['较上月'] = `+${item['较上月']}` : ''
         }
       })
