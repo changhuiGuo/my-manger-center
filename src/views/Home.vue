@@ -27,7 +27,7 @@ export default {
   data(){
     return{
       navData: {
-        active: '',
+        active: '收入',
         list: [
           {nameCn: '收入',nameEn: 'InCome',id: 1},
           {nameCn: '负债',nameEn: 'Debts',id: 2}
