@@ -112,6 +112,8 @@ export default {
 <style lang="less">
   .body{
     background: #f7f7f7;
+    max-width: 414px;
+    display: inline-block;
     .banner{
       position: relative;
       line-height: 1;

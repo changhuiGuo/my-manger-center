@@ -2,7 +2,7 @@
   <div class="collapsedTable">
     <title-bar :name="chartMode==='income'?'收入明细':'负债明细'"></title-bar>
     <div class="table-box">
-      <table style="position:fixed;width:94.5%;top:0px;z-index:1;" v-show="theadFixed">
+      <table class="thead-box" v-show="theadFixed">
         <thead>
           <tr>
             <th style="background:#e3e7f3;">月份</th>
@@ -101,6 +101,13 @@ export default {
       background: #fff;
       padding: 0 10px 15px 10px;
       table{
+        &.thead-box{
+          position:fixed;
+          width:94.5%;
+          top:0px;
+          z-index:1;
+          max-width:394px;
+        }
         thead{
           tr{
             th{

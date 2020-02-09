@@ -103,6 +103,7 @@ export default {
     li{
       margin: 0;
       .weui-flex__item{
+        text-align: left;
         span:last-child{
           color: red;
         }
