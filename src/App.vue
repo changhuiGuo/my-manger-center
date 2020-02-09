@@ -30,5 +30,6 @@ html body #app{
   height: 100%;
   text-align: center;
   overflow: auto;
+  background: #999;
 }
 </style>
