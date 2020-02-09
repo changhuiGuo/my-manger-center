@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="banner">
-      <img :src="[navData.active=='收入'?'../images/收入.jpg':'../images/负债.jpg']" alt="">
+      <img :src="[navData.active=='收入'?'images/收入.jpg':'images/负债.jpg']" alt="">
       <span :class="{'color-normal':navData.active=='收入'}" v-show="!isLoading">{{dateInfo.start}}</span>
       <span class="top-tips" v-show="!isLoading">{{dateInfo.text}}</span>
     </div>
