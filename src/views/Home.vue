@@ -1,18 +1,18 @@
 <template>
   <div class="body">
-    <div class="banner">
+    <header class="banner">
       <img :src="[navData.active=='收入'?'images/收入.jpg':'images/负债.jpg']" alt="">
       <span :class="{'color-normal':navData.active=='收入'}" v-show="!isLoading">{{dateInfo.start}}</span>
       <span class="top-tips" v-show="!isLoading">{{dateInfo.text}}</span>
-    </div>
-    <header class="weui-tab">
+    </header>
+    <nav class="weui-tab">
       <div class="weui-navbar">
         <div class="weui-navbar__item" :class="{'tab-blue': navData.active===item.nameCn}" 
         v-for="item in navData.list" :key="item.id" @click="navClick(item)">
           {{item.nameCn}}
         </div>
       </div>
-    </header>
+    </nav>
     <router-view/>
     <footer>
       <span>{{devicesInfo}}</span>
@@ -41,7 +41,7 @@ export default {
   created(){
     this.navData.active = this.$route.name==='InCome'?'收入':'负债';
     this.devicesInfo = navigator.userAgent.split(';').filter(item=>item.includes('Build'));
-    this.devicesInfo = this.devicesInfo[0].split(' ')[1];
+    this.devicesInfo = (this.devicesInfo.length&&this.devicesInfo[0].split(' ')[1])||'我是有底线的';
   },
   computed:{
     ...mapState(['isLoading']),
@@ -145,7 +145,7 @@ export default {
         }
       }
     }
-    header{
+    nav{
       height: 54px!important;
       .weui-navbar{
         .weui-navbar__item{
