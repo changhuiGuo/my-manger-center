@@ -37,7 +37,7 @@ export default {
         this.incomeData = res.data.map(item=>{
           item['总计'] = 0;
           for(var key in item){
-            if(typeof(item[key])==='number'&&key!='总计'){
+            if(typeof(item[key])==='number'&&key!='总计'&&key!='补发'){
               item['总计'] = parseFloat((item['总计']+item[key]).toFixed(2))
             }
           }
@@ -101,9 +101,9 @@ export default {
           temp[pushInx-1]['个人社保'] = parseFloat((temp[pushInx-1]['个人社保'] + item['个人社保']).toFixed(2));
           temp[pushInx-1]['个人公积金'] = parseFloat((temp[pushInx-1]['个人公积金'] + item['个人公积金']).toFixed(2));
           temp[pushInx-1]['个人所得税'] = parseFloat((temp[pushInx-1]['个人所得税'] + item['个人所得税']).toFixed(2));
-          temp[pushInx-1]['实发工资'] = parseFloat((temp[pushInx-1]['实发工资'] + item['实发工资']).toFixed(2));
+          temp[pushInx-1]['实发工资'] = parseFloat((temp[pushInx-1]['实发工资'] + item['实发工资']).toFixed(2)); 
           temp[pushInx-1]['单位'].includes(item['单位']) ? '': temp[pushInx-1]['单位'] += ','+item['单位'];
-          temp[pushInx-1]['总计'] = parseFloat((temp[pushInx-1]['补发'] + temp[pushInx-1]['个人社保'] + temp[pushInx-1]['个人公积金'] + temp[pushInx-1]['个人所得税'] + temp[pushInx-1]['实发工资']).toFixed(0));
+          temp[pushInx-1]['总计'] = parseFloat((temp[pushInx-1]['个人社保'] + temp[pushInx-1]['个人公积金'] + temp[pushInx-1]['个人所得税'] + temp[pushInx-1]['实发工资']).toFixed(0));
         }
         else{
           temp.push({
