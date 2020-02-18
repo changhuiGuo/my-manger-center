@@ -2,7 +2,7 @@
   <div>
     <title-bar name="总览" :period="periodData" :hrdisable="true"></title-bar>
     <div class="chart-content">
-      <canvas id="pieChart" width="360" :height="chartMode==='income'?180:chartData.data.length*26"></canvas> 
+      <canvas id="pieChart" width="360" :height="chartData.data.length*26<180?180:chartData.data.length*26"></canvas> 
     </div>
   </div>
 </template>
