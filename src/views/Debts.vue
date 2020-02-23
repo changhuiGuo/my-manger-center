@@ -32,8 +32,8 @@ export default {
     this.setLoadingStatus(true)
     api.getDebtsData().then(res=>{
       this.setLoadingStatus(false)
-      if(res){
-        let temp = res.data.debts
+      if(res){ 
+        let temp = this.$route.query.isChange ? res.data.loans : res.data.debts
         this.debtsData = temp.map((item,index)=>{
           item['总计'] = 0;
           for(var key in item){

@@ -13,13 +13,13 @@
         </div>
       </div>
     </nav>
-    <router-view/>
+    <router-view :key="$route.query.isChange"/>
     <footer>
       <span>{{devicesInfo}}</span>
     </footer>
   </div>
 </template>
-
+ 
 <script>
 import {mapState,mapMutations,mapActions} from 'vuex'
 export default {
@@ -32,7 +32,8 @@ export default {
           {nameCn: '负债',nameEn: 'Debts',id: 2}
         ]
       },
-      devicesInfo:''
+      devicesInfo:'',
+      clickCount: 0
     }
   },
   components: {
@@ -101,8 +102,19 @@ export default {
   },
   methods: {
     navClick(item){
-      this.navData.active = item.nameCn;
-      this.$router.push({path:`/${item.nameEn}`})
+      this.clickCount++;
+      let t = setTimeout(()=>{
+        this.clickCount = 0;
+        clearTimeout(t);
+      },500)
+
+      if(this.navData.active!=item.nameCn){
+        this.navData.active = item.nameCn;
+        this.$router.push({path:`/${item.nameEn}`})
+      }else if(this.clickCount>=3){ // 连击3次以上,切换展示数据
+        let query = this.$route.query.isChange ? {} : {isChange:true};
+        this.$router.push({path:`/${item.nameEn}`,query:query})
+      }
     }
   }
 }

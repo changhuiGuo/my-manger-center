@@ -1,8 +1,0 @@
-### 数据接口一
-GET /mockData/inCome.json HTTP/1.1
-Host: localhost:8080
-
-
-### 数据接口二
-GET /mockData/debts.json HTTP/1.1
-Host: localhost:8080
