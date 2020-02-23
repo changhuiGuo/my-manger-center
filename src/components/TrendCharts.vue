@@ -15,7 +15,7 @@ import _ from 'lodash'
 import titleBar from '@/components/TitleBar'
 export default {
   name: 'trendCharts',
-  props: ['chartData','chartMode'],
+  props: ['chartData','chartMode','paddingTop','itemWidth'],
   data() {
     return {
     } 
@@ -38,8 +38,8 @@ export default {
   },
   methods: {
     initTrendCharts(){
-      let paddingTop = this.chartMode==='income'?85:135
-      let itemWidth = this.chartMode==='income'?150:103
+      let paddingTop = this.paddingTop||85
+      let itemWidth = this.itemWidth||150
       let legendClickable = this.chartMode==='income'?false:true
       const chart = new F2.Chart({ 
           id: 'trendChart',

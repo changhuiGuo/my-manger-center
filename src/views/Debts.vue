@@ -1,7 +1,7 @@
 <template>
   <div>
     <pie-charts :chartData="pieChartData" chartMode="debts" :period="period"></pie-charts>
-    <trend-charts :chartData="trendChartData" chartMode="debts"></trend-charts>
+    <trend-charts :chartData="trendChartData" chartMode="debts" :paddingTop="$route.query.isChange?97:135" :itemWidth="103"></trend-charts>
     <collapsed-table :listData="debtsData" chartMode="debts"></collapsed-table>
     <div class="loading2" data-text="加载中..." v-show="isLoading"></div>
   </div>
