@@ -33,8 +33,8 @@ export default {
   },
   computed: {
   },
-  components: {
-    titleBar 
+  components: { 
+    titleBar   
   },
   methods: {
     initTrendCharts(){
